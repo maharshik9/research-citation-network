@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCNS | Academia Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #0f172a;
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --accent: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        aside {
+            width: 260px;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--primary-light);
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            flex-grow: 1;
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 1400px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            background-color: var(--surface);
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            width: 500px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.75rem;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-card .label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            color: var(--secondary);
+        }
+
+        /* Content Sections */
+        .content-card {
+            background-color: var(--surface);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 1rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+
+        .badge.primary { background-color: #e0e7ff; color: #4338ca; }
+        .badge.success { background-color: #dcfce7; color: #15803d; }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-dark); }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* Modal */
+        #modalOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+        }
+
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="logo">
+            ARCNS<span>.</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a class="nav-link active" onclick="showSection('dashboard')">📊 Dashboard</a></li>
+                <li><a class="nav-link" onclick="showSection('analytics')">📈 Analytics</a></li>
+                <li><a class="nav-link" onclick="showSection('search')">🔍 Search Engine</a></li>
+                <li><a class="nav-link" onclick="showSection('chain')">⛓️ Citation Explorer</a></li>
+                <li><a class="nav-link" onclick="showSection('management')">🛠️ Management</a></li>
+            </ul>
+        </nav>
+        <div style="flex-grow: 1;"></div>
+        <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 0.5rem; font-size: 0.75rem; color: #64748b;">
+            Version 2.0 (Premium)<br>
+            © 2026 DBMS Lab
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <h1 id="sectionTitle" style="font-family: 'Outfit'; font-size: 1.5rem; font-weight: 700;">Dashboard Overview</h1>
+            <div class="search-bar" id="topSearchWrap" style="display: none;">
+                🔎 <input type="text" id="globalSearch" placeholder="Search for papers, abstracts, or DOI..." onkeyup="if(event.key==='Enter') executeSearch()">
+            </div>
+            <button class="btn btn-primary" onclick="openModal()">+ Add Publication</button>
+        </header>
+
+        <section id="dashboard" class="fade-in">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="label">Total Papers</span>
+                    <span class="value" id="statPapers">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Researchers</span>
+                    <span class="value" id="statResearchers">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Total Citations</span>
+                    <span class="value" id="statCitations">-</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Venues</span>
+                    <span class="value" id="statVenues">-</span>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">Top 10 Cited Publications</h2>
+                    <span class="badge primary">Global Impact</span>
+                </div>
+                <div class="table-container">
+                    <table id="topPapersTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Authors List</th>
+                                <th>Citations</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics" class="fade-in" style="display: none;">
+            <div class="content-card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h2 class="card-title">Author Leaderboard</h2>
+                </div>
+                <div class="table-container">
+                    <table id="authorTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>H-Index</th>
+                                <th>Total Papers</th>
+                                <th>Total Citations</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="content-card">
+                    <h2 class="card-title" style="margin-bottom: 1rem;">Venue Rankings</h2>
+                    <div class="table-container">
+                        <table id="venueTable">
+                            <thead>
+                                <tr><th>Venue Name</th><th>Type</th><th>Papers</th><th>Avg Citations</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="content-card">
+                    <h2 class="card-title" style="margin-bottom: 1rem;">Institutional Output</h2>
+                    <div class="table-container">
+                        <table id="institutionTable">
+                            <thead>
+                                <tr><th>Institution</th><th>Total Papers</th><th>Total Citations</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="search" class="fade-in" style="display: none;">
+            <div class="content-card">
+                <h2 class="card-title" style="margin-bottom: 1.5rem;">Paper Search Engine</h2>
+                <div style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+                    <input type="text" id="searchQuery" class="form-input" placeholder="Search by title or abstract content...">
+                    <button class="btn btn-primary" onclick="executeSearch()">Execute Search</button>
+                </div>
+                <div class="table-container" id="searchResults">
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">Use Full-Text search capability of the database.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="chain" class="fade-in" style="display: none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">Citation Chain Explorer</h2>
+                    <span class="badge primary">Recursive CTE</span>
+                </div>
+                <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+                    <input type="number" id="paperIdChain" class="form-input" placeholder="Enter Paper ID (e.g., 10)">
+                    <button class="btn btn-primary" onclick="exploreChain()">Explore Network</button>
+                </div>
+                <div id="chainResults" class="table-container">
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">Trace paper relationship chains through the citation network.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalOverlay" onclick="if(event.target===this) closeModal()">
+        <div class="modal fade-in">
+            <h2 class="card-title" style="margin-bottom: 1.5rem;">New Publication</h2>
+            <div class="form-group">
+                <label class="form-label">Paper Title</label>
+                <input type="text" id="newTitle" class="form-input" placeholder="Enter full paper title">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Abstract</label>
+                <textarea id="newAbstract" class="form-input" rows="4" placeholder="Brief summary of the work"></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Year</label>
+                    <input type="number" id="newYear" class="form-input" value="2026">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Venue ID</label>
+                    <input type="number" id="newVenue" class="form-input" placeholder="Optional">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitPaper()">Save to Database</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8000/api";
+
+        window.onload = () => {
+            fetchStats();
+            queryData('top_papers', 'topPapersTable', ['title', 'year', 'authors', 'citations']);
+        };
+
+        function showSection(id) {
+            document.querySelectorAll('main section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(id).style.display = 'block';
+            event.target.classList.add('active');
+            
+            document.getElementById('sectionTitle').textContent = id.charAt(0).toUpperCase() + id.slice(1);
+            document.getElementById('topSearchWrap').style.display = (id === 'search') ? 'flex' : 'none';
+
+            if (id === 'analytics') {
+                queryData('author_leaderboard', 'authorTable', ['name', 'h_index_cache', 'total_publications', 'total_citations']);
+                queryData('venue_rankings', 'venueTable', ['name', 'type', 'total_papers', 'avg_citations']);
+                queryData('institutional_output', 'institutionTable', ['institution', 'total_papers', 'total_citations']);
+            }
+        }
+
+        async function fetchStats() {
+            try {
+                const res = await fetch(`${API_BASE}/stats`);
+                const data = await res.json();
+                document.getElementById('statPapers').textContent = data.papers;
+                document.getElementById('statResearchers').textContent = data.researchers;
+                document.getElementById('statCitations').textContent = data.citations;
+                document.getElementById('statVenues').textContent = data.venues;
+            } catch (err) { console.error(err); }
+        }
+
+        async function queryData(type, tableId, keys = null) {
+            try {
+                const res = await fetch(`${API_BASE}/query?type=${type}`);
+                const data = await res.json();
+                renderTable(tableId, data, keys);
+            } catch (err) { console.error(err); }
+        }
+
+        function renderTable(tableId, data, keysToDisplay = null) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            if (!Array.isArray(data) || !data.length) {
+                tbody.innerHTML = '<tr><td colspan="100%" style="text-align:center">No data available</td></tr>';
+                return;
+            }
+
+            const keys = keysToDisplay || Object.keys(data[0]);
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                keys.forEach(k => {
+                    const td = document.createElement('td');
+                    td.textContent = row[k] !== null ? row[k] : '—';
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function executeSearch() {
+            const q = document.getElementById('searchQuery').value || document.getElementById('globalSearch').value;
+            const container = document.getElementById('searchResults');
+            container.innerHTML = '<p style="text-align:center">Searching...</p>';
+            
+            try {
+                const res = await fetch(`${API_BASE}/query?type=search&q=${encodeURIComponent(q)}`);
+                const data = await res.json();
+                
+                if (!Array.isArray(data)) {
+                    container.innerHTML = `<p style="color:red; text-align:center">Error: ${data.error || 'Unknown error'}</p>`;
+                    return;
+                }
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center">No results found.</p>';
+                } else {
+                    let html = '<table><thead><tr><th>ID</th><th>Title</th><th>Year</th><th>Citations</th></tr></thead><tbody>';
+                    data.forEach(p => {
+                        html += `<tr><td>${p.paper_id}</td><td>${p.title}</td><td>${p.year}</td><td><span class="badge primary">${p.citations}</span></td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                    container.innerHTML = html;
+                }
+            } catch (err) { container.innerHTML = 'Error: ' + err.message; }
+        }
+
+        async function exploreChain() {
+            const id = document.getElementById('paperIdChain').value;
+            const container = document.getElementById('chainResults');
+            container.innerHTML = '<p style="text-align:center">Traversing Network...</p>';
+
+            try {
+                const res = await fetch(`${API_BASE}/citation-chain?id=${id}`);
+                const data = await res.json();
+                
+                if (!Array.isArray(data)) {
+                    container.innerHTML = `<p style="color:red; text-align:center">Error: ${data.error || 'Unknown error'}</p>`;
+                    return;
+                }
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center">No citation chain found for this paper.</p>';
+                } else {
+                    let html = '<table><thead><tr><th>Source ID</th><th>Target ID</th><th>Hops (Depth)</th></tr></thead><tbody>';
+                    data.forEach(item => {
+                        html += `<tr><td>${item.source}</td><td>${item.target}</td><td><span class="badge success">${item.depth}</span></td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                    container.innerHTML = html;
+                }
+            } catch (err) { container.innerHTML = 'Error: ' + err.message; }
+        }
+
+        function openModal() { document.getElementById('modalOverlay').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
+
+        async function submitPaper() {
+            const payload = {
+                title: document.getElementById('newTitle').value,
+                abstract: document.getElementById('newAbstract').value,
+                year: document.getElementById('newYear').value,
+                venue_id: document.getElementById('newVenue').value || null
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/add-paper`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                if (result.id) {
+                    alert('Paper added successfully! ID: ' + result.id);
+                    closeModal();
+                    fetchStats();
+                    queryData('top_papers', 'topPapersTable');
+                }
+            } catch (err) { alert('Error: ' + err.message); }
+        }
+    </script>
+</body>
+</html>
